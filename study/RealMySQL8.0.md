@@ -26,3 +26,7 @@
   - update 문장을 위해 적절한 인덱스 설정이 필요함.
     - 변경해야 할 문장을 찾기 위해 검색한 인덱스의 레코드를 모두 락을 걸어야 함.
 - MySQL 격리 수준
+  - READ UNCOMMITTED
+  - READ COMMITTED
+  - REPEATABLE READ
+  - SERIALIZABLE
