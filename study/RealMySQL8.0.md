@@ -26,7 +26,17 @@
   - update 문장을 위해 적절한 인덱스 설정이 필요함.
     - 변경해야 할 문장을 찾기 위해 검색한 인덱스의 레코드를 모두 락을 걸어야 함.
 - MySQL 격리 수준
+  - SERIALIZABLE 격리 수준이 아니라면 크게 성능의 개선이나 저하는 발생하지 않음.
   - READ UNCOMMITTED
+    - dirty read, non_repeatable read, phantom read
+      - dirty read: 어떤 트랜잭션에서 처리한 작업이 완료되지 않았는데도 다른 트랜잭션에서 볼 수 있는 현상
+      - non_repeatable read: 하나의 트랜잭션 내에서 똑같은 SELECT 쿼리를 실행했을 때는 항상 같은 결과를 가져와야 한다에 반하는 현상
+      - phantom read: 다른 트랜잭션에서 수행한 변경 작업에 의해 레코드가 보였다 안보였다 하는 현상 (select for update 같은 쿼리는 레코드에 쓰기 잠금을 걸어야 하는데 언두 레코드에는 잠금을 걸 수 없어 현재 레코드의 값을 가져오게됨. 따라서 팬텀 리드 현상이 있음.)
   - READ COMMITTED
+    - non_repeatable read, phantom read
   - REPEATABLE READ
+    - phantom read (innoDB는 phantom read 현상 없음.=> 갭락과 넥스트 키 락 덕분)
   - SERIALIZABLE
+    - x
+
+# 08 인덱스
