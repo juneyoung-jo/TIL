@@ -110,3 +110,5 @@
     - 1. 인덱스를 사용한 정렬: 별도 표기 없음.
     - 2. 조인에서 드라이빙 테이블만 정렬: "Using filesort"
     - 3. 조인에서 조인 결과를 임시 테이블로 저장 후 정렬: "Using temporary; Using filesort"
+
+# 10 실행 계획
