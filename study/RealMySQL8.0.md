@@ -114,3 +114,64 @@
 # 10 실행 계획
 
 - 실행 계획 확인
+  - DESC, EXPLAIN 명령어로 실행계획을 확인할 수 있다.
+  - EXPLAIN ANALYZE 기능으로 쿼리의 실행 계획과 단계별 소요된 시간 정보를 확인할 수 있다.
+    - 들여쓰기가 같은 레벨에서는 상단에 위치한 라인이 먼저 실행
+    - 들여쓰기가 다른 레벨에서는 가장 안족에 위치한 라인이 먼저 실행
+    - actual_time(실제 소요된 시간), rows(처리한 레코드 건수), loops(반복 횟수)가 표기
+- 실행 계획 분석
+  - id 칼럼
+    - 단위 SELECT 쿼리별로 부여되는 식별자 값
+    - 테이블의 접근순서를 의미하지는 않음
+  - select_type 칼럼
+    - 각 단위 SELECT 쿼리가 어떤 타입의 쿼리인지 표시됨
+    - SIMPLE
+      - UNION이나 서브쿼리를 사용하지 않는 단순한 SELECT 쿼리인 경우
+    - PRIMARY
+      - UNION이나 서브쿼리를 가지는 SELECT 쿼리의 실행계획에서 가장 바깥쪽에 있는 쿼리
+    - UNION
+      - UNION으로 결합하는 단위 SELECT 쿼리 가운데 첫 번째를 제외한 두 번째 이후 단위 SELECT 쿼리
+      - UNION의 첫 번째 단위 SELECT는 DERIVED(임시테이블)로 표시된다.
+    - DEPENDENT UNION
+    - UNION RESULT
+    - SUBQUERY
+      - from 절 이외에서 사용되는 서브쿼리
+    - DEPENDENT SUBQUERY
+    - DERIVED
+    - DEPENDENT DERIVED
+    - UNCACHEABLE SUBQUERY
+    - UNCACHEABLE UNION
+    - MATERIALIZED
+  - table 칼럼
+    - 테이블의 이름 or 별칭이 표기됨.
+  - type 칼럼
+    - mysql 서버가 각 테이블의 레코드를 어떤 방식으로 읽었는지를 나타냄
+    - system
+      - 레코드가 1건만 존재하는 테이블 or 한 건도 존재하지 않는 테이블을 참조하는 형태
+    - const
+      - 쿼리가 프라이머리 키나 유니크 키 칼럼을 이요하는 WHERE 조건절을 가지고 있으며 반드시 1건을 반환하는 쿼리의 처리 방식
+    - eq_ref
+      - 여러 테이블이 조인되는 쿼리의 실행 계획에서만 표시
+      - 조인에서 처음 읽은 테이블의 컬럼값을 그다음 읽어야 할테이블의 프라이머리 키나 유니크 키 칼럼의 검색 조건에 사용할 경우
+    - ref
+      - 조인의 순서와 관계없이 사용되며, 프라이머리 키나 유니크 키 등의 제약조건도 없다.
+      - 인덱스의 종류와 관계없이 동등(Equal) 조건으로 검색할 때 사용됨
+    - fulltext
+    - ref_or_null
+      - ref 접근방식과 같은데 NULL 비교가 추가된 형태
+      - 실무에 많이 활용되지는 않음, 나쁘지 않은 접근 방법 정도로 기억하면 됨.
+    - unique_subquery
+      - WHERE 조건절에서 사용될 수 있는 IN(subquery) 형태의 쿼리를 위한 접근 방식
+      - 서브쿼리에서 중복되지 않는 유니크한 값만 반환할 때 이 접근방식을 사용
+    - index_subquery
+    - range
+      - 익히 알고 있는 인덱스 레인지 스캔 형태의 접근 방식
+      - 인덱스를 범위로 스캔하는 방식, 주로 "<, >, IS NULL, BETWEEN, IN, LIKE" 등의 연산자를 이용
+      - 상당히 빠르며, 최적의 성능이 보장된다고 할 수 있다
+    - index_merge
+      - 2개 이상의 인덱스를 이용해 각각의 검색 결과를 만들어낸 후, 그 결과를 병합해서 처리하는 방식
+    - index
+      - 인덱스를 처음부터 끝까지 읽는 인덱스 풀 스캔
+    - ALL
+      - 인덱스를 사용하지 않는 접근 방법
+      - 풀스캔
