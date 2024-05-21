@@ -112,3 +112,5 @@
     - 3. 조인에서 조인 결과를 임시 테이블로 저장 후 정렬: "Using temporary; Using filesort"
 
 # 10 실행 계획
+
+- 실행 계획 확인
