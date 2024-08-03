@@ -1,0 +1,7 @@
+- slack bot 개발 관련 자료 확인
+- Virtual Thread 관련 기술블로그
+  - 실무에서 제대로 사용하기 위해 검증이 더 필요해 보임.
+    - 신기술을 적용하기위해 신중히 검토해야할 부분이 많아 보임.
+    - 라이브러리 호환성도 고려해 봐야 할 것 같음.
+  - 성능 테스트 관점에서 좋은 인사이트를 얻을 수 있었음.
+  - 링크: https://tech.kakaopay.com/post/ro-spring-virtual-thread/
